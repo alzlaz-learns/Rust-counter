@@ -1,0 +1,6 @@
+[workspace]
+
+members = [
+    "text_based_counter",
+    "counter_components",
+]
