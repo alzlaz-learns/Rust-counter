@@ -7,6 +7,9 @@ use counter_components::{score_card_struct::ScoreCard, counter_struct::Counter};
 
 #[derive(Debug)]
 pub enum MainLoopCommands{
+    /*
+        Enums representing commands a user 
+    */
     NewGame,
     Exit,
     Help,
@@ -39,17 +42,27 @@ pub fn main_loop_match(commands: MainLoopCommands){
         MainLoopCommands::NewGame => {
             println!("Starting a new game");
             new_game();
-            // ScoreCard::
         },
         MainLoopCommands::Exit => {
             println!("Thank you for playing"); 
             exit(0);
         },
         MainLoopCommands::Help => {
-            println!("This is where help info will be displayed.");
+            println!("In game help section listing");
+            println!("Options:
+            -n or -New: To Start a new game loop.
+            \t e.g -n
+            \n -e or -Exit: To end the game.
+            \t e.g -e 
+            \n -d or -Display: to show saved score cards.
+            \t currently not an option. To be worked upon.
+            ");
         },
         MainLoopCommands::Display => {
             println!("Displaying saved cards");
+            /*
+                To be inmplemented if decided to 
+            */
             // let mut f = file_handler::FileHandler::load_profiles(SAVE_FILE);
             // println!("{:?}", f);
             // f.save(SAVE_FILE, &f);
@@ -81,6 +94,10 @@ fn new_game(){
 }
 
 pub enum GameLoopCommands{
+    /*
+        Enums representing the user commands
+        for within a game. 
+    */
     AddPlayer,
     RemovePlayer,
     Help,
@@ -96,7 +113,6 @@ impl GameLoopCommands{
             TODO: Handle the errors correctly for arg count vs invalid input.
         */
         let vec: Vec<&str> = s.split(' ').collect();
-        // println!("{:?}", &vec);
         match vec.len() {
             2 => {
                 match vec[0] {
@@ -140,7 +156,7 @@ fn game_loop_match(commands: (GameLoopCommands, &str), score_card_struct: &mut S
             
         },
         (GameLoopCommands::Help, player_name) => {
-            println!("Help section listing");
+            println!("In game help section listing");
             println!("Options:
             -a or -Add (player name): To add a player.
             \t e.g -a p1
@@ -151,12 +167,11 @@ fn game_loop_match(commands: (GameLoopCommands, &str), score_card_struct: &mut S
             \n -i to -Decrement (player name): to decrease a player's score.
             \t e.g -d p1
             \n -e or -End: To end the game.
-            \t e.g -e p1
+            \t e.g -e 
             ");
 
         },
         (GameLoopCommands::EndGame, player_name) => {
-            println!("Exiting game loop");
             return;
             
         },
@@ -213,9 +228,6 @@ fn game_loop( score_card_struct:  &mut ScoreCard){
             Err(ErrorEnums::InputError) => println!("invalid input"),
             Err(ErrorEnums::InvalidArgCount) => println!("Invalid arg count"),
         }
-        
         score_card_struct.get_details();
     }
-
-    println!("exiting loop");
 }
